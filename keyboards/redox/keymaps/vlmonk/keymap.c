@@ -15,6 +15,7 @@ enum {
 qk_tap_dance_action_t tap_dance_actions[] = {
   // single tap for '[', double tap for '{'
   [TD_LEFT_BR]  = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_LCBR),
+  // single tap for ']', double tap for '}'
   [TD_RGHT_BR]  = ACTION_TAP_DANCE_DOUBLE(KC_RBRC, KC_RCBR)
 // Other declarations would go here, separated by commas, if you have them
 };
@@ -57,7 +58,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
      KC_TRNS ,KC_F1   ,KC_F2   ,KC_F3   ,KC_F4   ,KC_F5   ,                                            KC_F6   ,KC_F7   ,KC_F8   ,KC_F9    ,KC_F10  ,KC_NO  ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_TRNS ,KC_EXLM ,KC_AT   ,KC_LCBR ,KC_RCBR ,KC_PIPE ,KC_TRNS ,                          KC_TRNS ,KC_NO   ,KC_P7   ,KC_P8    ,KC_P9  ,KC_NO   ,KC_NO   ,
+     KC_TRNS ,KC_EXLM ,KC_AT   ,KC_LCBR ,KC_RCBR ,KC_PIPE ,KC_TRNS ,                          KC_TRNS ,KC_BSLS ,KC_P7   ,KC_P8    ,KC_P9  ,KC_NO   ,KC_NO   ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_TRNS ,KC_HASH  ,KC_DLR ,KC_LBRC ,KC_RBRC ,KC_GRV  ,KC_TRNS ,                          KC_TRNS ,KC_NO   ,KC_P4   ,KC_P5   ,KC_P6   ,KC_NO   ,KC_NO   ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
