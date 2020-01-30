@@ -26,10 +26,11 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 #define _SYMB 1
 #define _NAV 2
 
-#define LT2_GRV LT(2,KC_GRV)
-#define LT2_MIN LT(2,KC_MINS)
-#define LT2_PU  LT(2,KC_PGUP)
-#define LT2_END LT(2,KC_END)
+#define LT2_GRV LT(_NAV,KC_GRV)
+#define LT2_MIN LT(_NAV,KC_MINS)
+#define LT2_PU  LT(_NAV,KC_PGUP)
+#define LT2_END LT(_NAV,KC_END)
+#define LNV_PLS LT(_NAV,KC_PPLS)
 
 #define AL_PAST LALT_T(KC_PAST)
 #define AL_LEFT RALT_T(KC_LEFT)
@@ -50,7 +51,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_LSPO ,KC_Z    ,KC_X    ,KC_C    ,KC_V    ,KC_B    ,LT2_PU  ,KC_PGDN ,        KC_HOME ,LT2_END ,KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,KC_RSPC ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     KC_LCTL ,KC_PPLS ,KC_PMNS ,AL_PAST ,     KC_LGUI ,    KC_BSPC ,KC_DEL  ,        KC_ENT  ,KC_SPC  ,    KC_RGUI ,     AL_LEFT ,KC_DOWN ,KC_UP   ,CTL_R
+     KC_LCTL ,LNV_PLS ,KC_PMNS ,AL_PAST ,     KC_LGUI ,    KC_BSPC ,KC_DEL  ,        KC_ENT  ,KC_SPC  ,    KC_RGUI ,     AL_LEFT ,KC_DOWN ,KC_UP   ,CTL_R
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
 
