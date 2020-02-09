@@ -39,6 +39,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 #define MY_LBR  TD(TD_LEFT_BR)
 #define MY_RBR  TD(TD_RGHT_BR)
 
+#define MY_SPC   MT(MOD_RGUI, KC_SPC)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT(
@@ -51,7 +52,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_LSPO ,KC_Z    ,KC_X    ,KC_C    ,KC_V    ,KC_B    ,LT2_PU  ,KC_PGDN ,        KC_HOME ,LT2_END ,KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,KC_RSPC ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     KC_LCTL ,LNV_PLS ,KC_PMNS ,AL_PAST ,     KC_LGUI ,    KC_BSPC ,KC_DEL  ,        KC_ENT  ,KC_SPC  ,    KC_RGUI ,     AL_LEFT ,KC_DOWN ,KC_UP   ,CTL_R
+     KC_LCTL ,LNV_PLS ,KC_PMNS ,AL_PAST ,     KC_NO   ,    KC_BSPC ,KC_DEL  ,        KC_ENT  ,MY_SPC  ,    KC_NO   ,     AL_LEFT ,KC_DOWN ,KC_UP   ,CTL_R
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
 
