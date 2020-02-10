@@ -38,7 +38,8 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   [TD_LEFT_BR]  = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_LCBR),
   // single tap for ']', double tap for '}'
   [TD_RGHT_BR]  = ACTION_TAP_DANCE_DOUBLE(KC_RBRC, KC_RCBR),
-  [TD_LEFT_MOD] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, left_mod_finished, left_mod_reset, 198)
+  [TD_LEFT_MOD] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, left_mod_finished, left_mod_reset, 200),
+  [TD_RIGHT_MOD] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, right_mod_finished, right_mod_reset, 200)
 // Other declarations would go here, separated by commas, if you have them
 };
 
@@ -70,8 +71,11 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 // right mod switch, tap dance to _NAV layer
 #define MY_RMD   TD(TD_RIGHT_MOD)
 
-// disable _SYM layer
+// disable _SYMB layer
 #define NO_SYM   TG(_SYMB)
+
+// disable _NAV layer
+#define NO_NAV   TG(_NAV)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT(
@@ -98,7 +102,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_TRNS ,KC_PERC ,KC_CIRC ,KC_LPRN ,KC_RPRN ,KC_TILD ,KC_TRNS ,KC_TRNS,         KC_TRNS ,KC_TRNS ,KC_NO   ,KC_P1   ,KC_P2   ,KC_P3   ,KC_NO   ,KC_NO   ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     KC_TRNS ,KC_TRNS ,KC_TRNS ,KC_TRNS ,     KC_TRNS ,    KC_TRNS ,KC_TRNS ,        KC_TRNS ,KC_TRNS ,    NO_SYM  ,     KC_P0   ,KC_PDOT ,KC_NO   ,KC_NO
+     KC_TRNS ,KC_TRNS ,KC_TRNS ,KC_TRNS ,     NO_NAV  ,    KC_TRNS ,KC_TRNS ,        KC_TRNS ,KC_TRNS ,    NO_SYM  ,     KC_P0   ,KC_PDOT ,KC_NO   ,KC_NO
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
   [_NAV]=LAYOUT(
