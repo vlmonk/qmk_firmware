@@ -17,14 +17,19 @@ enum {
 };
 
 int cur_dance (qk_tap_dance_state_t *state);
+
 void left_mod_finished(qk_tap_dance_state_t *state, void *user_data);
 void left_mod_reset(qk_tap_dance_state_t *state, void *user_data);
+
+void right_mod_finished(qk_tap_dance_state_t *state, void *user_data);
+void right_mod_reset(qk_tap_dance_state_t *state, void *user_data);
 
 //Tap Dance Declarations
 enum {
   TD_LEFT_BR = 0,
   TD_RGHT_BR,
-  TD_LEFT_MOD
+  TD_LEFT_MOD,
+  TD_RIGHT_MOD
 };
 
 //Tap Dance Definitions
@@ -56,8 +61,17 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 #define MY_LBR  TD(TD_LEFT_BR)
 #define MY_RBR  TD(TD_RGHT_BR)
 
+// custom spacebar with command on tap
 #define MY_SPC   MT(MOD_RGUI, KC_SPC)
+
+// left mod switch, tap dance to _SYM layer
 #define MY_LMD   TD(TD_LEFT_MOD)
+
+// right mod switch, tap dance to _NAV layer
+#define MY_RMD   TD(TD_RIGHT_MOD)
+
+// disable _SYM layer
+#define NO_SYM   TG(_SYMB)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT(
@@ -70,7 +84,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_LSPO ,KC_Z    ,KC_X    ,KC_C    ,KC_V    ,KC_B    ,LT2_PU  ,KC_PGDN ,        KC_HOME ,LT2_END ,KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,KC_RSPC ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     KC_LCTL ,LNV_PLS ,KC_PMNS ,AL_PAST ,     KC_NO   ,    KC_BSPC ,KC_DEL  ,        KC_ENT  ,MY_SPC  ,    MY_LMD  ,     AL_LEFT ,KC_DOWN ,KC_UP   ,CTL_R
+     KC_LCTL ,LNV_PLS ,KC_PMNS ,AL_PAST ,     MY_RMD  ,    KC_BSPC ,KC_DEL  ,        KC_ENT  ,MY_SPC  ,    MY_LMD  ,     AL_LEFT ,KC_DOWN ,KC_UP   ,CTL_R
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
 
@@ -84,7 +98,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_TRNS ,KC_PERC ,KC_CIRC ,KC_LPRN ,KC_RPRN ,KC_TILD ,KC_TRNS ,KC_TRNS,         KC_TRNS ,KC_TRNS ,KC_NO   ,KC_P1   ,KC_P2   ,KC_P3   ,KC_NO   ,KC_NO   ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     KC_TRNS ,KC_TRNS ,KC_TRNS ,KC_TRNS ,     KC_TRNS ,    KC_TRNS ,KC_TRNS ,        KC_TRNS ,KC_TRNS ,    KC_P0   ,     KC_P0   ,KC_PDOT ,KC_NO   ,KC_NO
+     KC_TRNS ,KC_TRNS ,KC_TRNS ,KC_TRNS ,     KC_TRNS ,    KC_TRNS ,KC_TRNS ,        KC_TRNS ,KC_TRNS ,    NO_SYM  ,     KC_P0   ,KC_PDOT ,KC_NO   ,KC_NO
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
   [_NAV]=LAYOUT(
@@ -123,6 +137,11 @@ static tap left_mod_tap = {
   .state = 0
 };
 
+static tap right_mod_tap = {
+  .is_press_action = true,
+  .state = 0
+};
+
 void left_mod_finished(qk_tap_dance_state_t *state, void *user_data) {
   left_mod_tap.state = cur_dance(state);
   switch (left_mod_tap.state) {
@@ -146,4 +165,29 @@ void left_mod_reset(qk_tap_dance_state_t *state, void *user_data) {
       break;
   }
   left_mod_tap.state = 0;
+}
+
+void right_mod_finished(qk_tap_dance_state_t *state, void *user_data) {
+  right_mod_tap.state = cur_dance(state);
+  switch (right_mod_tap.state) {
+    case SINGLE_TAP:
+      set_oneshot_layer(_NAV, ONESHOT_START);
+      clear_oneshot_layer_state(ONESHOT_PRESSED);
+      break;
+    case SINGLE_HOLD:
+      layer_on(_NAV);
+      break;
+    case DOUBLE_TAP:
+      layer_on(_NAV);
+      break;
+  }
+}
+
+void right_mod_reset(qk_tap_dance_state_t *state, void *user_data) {
+  switch (right_mod_tap.state) {
+    case SINGLE_HOLD:
+      layer_off(_NAV);
+      break;
+  }
+  right_mod_tap.state = 0;
 }
