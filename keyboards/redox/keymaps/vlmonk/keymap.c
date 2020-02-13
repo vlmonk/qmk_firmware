@@ -102,9 +102,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_TRNS ,KC_EXLM ,KC_AT   ,KC_PIPE ,KC_LCBR ,KC_RCBR ,KC_TRNS ,                          KC_TRNS ,KC_BSLS ,KC_P7   ,KC_P8    ,KC_P9  ,KC_NO   ,KC_NO   ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_TRNS ,KC_HASH  ,KC_DLR ,KC_GRV  ,KC_LBRC ,KC_RBRC ,KC_TRNS ,                          KC_TRNS ,KC_NO   ,KC_P4   ,KC_P5   ,KC_P6   ,KC_NO   ,KC_NO   ,
+     KC_TRNS ,KC_HASH  ,KC_DLR ,KC_GRV  ,KC_LPRN ,KC_RPRN ,KC_TRNS ,                          KC_TRNS ,KC_NO   ,KC_P4   ,KC_P5   ,KC_P6   ,KC_NO   ,KC_NO   ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_TRNS ,KC_PERC ,KC_CIRC ,KC_TILD ,KC_LPRN ,KC_RPRN ,KC_TRNS ,KC_TRNS,         KC_TRNS ,KC_TRNS ,KC_NO   ,KC_P1   ,KC_P2   ,KC_P3   ,KC_NO   ,KC_NO   ,
+     KC_TRNS ,KC_PERC ,KC_CIRC ,KC_TILD ,KC_LBRC ,KC_RBRC ,KC_TRNS ,KC_TRNS,         KC_TRNS ,KC_TRNS ,KC_NO   ,KC_P1   ,KC_P2   ,KC_P3   ,KC_NO   ,KC_NO   ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
      KC_TRNS ,KC_TRNS ,KC_TRNS ,KC_TRNS ,     NO_NAV  ,    KC_TRNS ,KC_TRNS ,        KC_TRNS ,KC_TRNS ,    NO_SYM  ,     KC_P0   ,KC_PDOT ,KC_NO   ,KC_NO
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
