@@ -50,7 +50,6 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 #define _NAV 2
 
 #define LT2_GRV LT(_NAV,KC_GRV)
-#define LT2_MIN LT(_NAV,KC_MINS)
 #define LT2_PU  LT(_NAV,KC_PGUP)
 #define LT2_END LT(_NAV,KC_END)
 #define LNV_PLS LT(_NAV,KC_PPLS)
@@ -84,7 +83,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     KC_NO   ,KC_1    ,KC_2    ,KC_3    ,KC_4    ,KC_5    ,                                            KC_6    ,KC_7    ,KC_8    ,KC_9    ,KC_0    ,LT2_MIN ,
+     KC_NO   ,KC_1    ,KC_2    ,KC_3    ,KC_4    ,KC_5    ,                                            KC_6    ,KC_7    ,KC_8    ,KC_9    ,KC_0    ,KC_NO   ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_TAB  ,KC_Q    ,KC_W    ,KC_E    ,KC_R    ,KC_T    ,KC_NO   ,                          KC_NO   ,KC_Y    ,KC_U    ,KC_I    ,KC_O    ,KC_P    ,KC_EQL  ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
@@ -102,9 +101,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_TRNS ,KC_EXLM ,KC_AT   ,KC_PIPE ,KC_LCBR ,KC_RCBR ,KC_TRNS ,                          KC_TRNS ,KC_BSLS ,KC_P7   ,KC_P8    ,KC_P9  ,KC_NO   ,KC_NO   ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_TRNS ,KC_HASH  ,KC_DLR ,KC_GRV  ,KC_LPRN ,KC_RPRN ,KC_TRNS ,                          KC_TRNS ,KC_NO   ,KC_P4   ,KC_P5   ,KC_P6   ,KC_NO   ,KC_NO   ,
+     KC_TRNS ,KC_HASH  ,KC_DLR ,KC_GRV  ,KC_LPRN ,KC_RPRN ,KC_TRNS ,                          KC_TRNS ,KC_MINS ,KC_P4   ,KC_P5   ,KC_P6   ,KC_NO   ,KC_NO   ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_TRNS ,KC_PERC ,KC_CIRC ,KC_TILD ,KC_LBRC ,KC_RBRC ,KC_TRNS ,KC_TRNS,         KC_TRNS ,KC_TRNS ,KC_NO   ,KC_P1   ,KC_P2   ,KC_P3   ,KC_NO   ,KC_NO   ,
+     KC_TRNS ,KC_PERC ,KC_CIRC ,KC_TILD ,KC_LBRC ,KC_RBRC ,KC_TRNS ,KC_TRNS,         KC_TRNS ,KC_TRNS ,KC_UNDS ,KC_P1   ,KC_P2   ,KC_P3   ,KC_NO   ,KC_NO   ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
      KC_TRNS ,KC_TRNS ,KC_TRNS ,KC_TRNS ,     NO_NAV  ,    KC_TRNS ,KC_TRNS ,        KC_TRNS ,KC_TRNS ,    NO_SYM  ,     KC_P0   ,KC_PDOT ,KC_NO   ,KC_NO
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
