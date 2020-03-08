@@ -61,9 +61,6 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 #define MY_LBR  TD(TD_LEFT_BR)
 #define MY_RBR  TD(TD_RGHT_BR)
 
-// custom spacebar with command on tap
-#define MY_SPC   MT(MOD_RGUI, KC_SPC)
-
 // left mod switch, tap dance to _SYM layer
 /* #define MY_LMD   TD(TD_LEFT_MOD) */
 #define MY_LMD   OSL(_SYMB)
@@ -92,7 +89,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      MY_LSFT ,KC_Z    ,KC_X    ,KC_C    ,KC_V    ,KC_B    ,LT2_PU  ,KC_PGDN ,        KC_HOME ,LT2_END ,KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,MY_RSFT ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     KC_LCTL ,LNV_PLS ,KC_PMNS ,AL_PAST ,     MY_RMD  ,    KC_BSPC ,KC_LCMD ,        KC_ENT  ,MY_SPC  ,    MY_LMD  ,     AL_LEFT ,KC_DOWN ,KC_UP   ,CTL_R
+     KC_LCTL ,LNV_PLS ,KC_PMNS ,AL_PAST ,     KC_RGUI ,    KC_BSPC ,MY_RMD  ,        KC_ENT  ,KC_SPC  ,    MY_LMD  ,     AL_LEFT ,KC_DOWN ,KC_UP   ,CTL_R
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
 
