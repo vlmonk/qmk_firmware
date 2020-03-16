@@ -49,34 +49,13 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 #define _SYMB 1
 #define _NAV 2
 
-#define LT2_GRV LT(_NAV,KC_GRV)
-#define LT2_PU  LT(_NAV,KC_PGUP)
-#define LT2_END LT(_NAV,KC_END)
-#define LNV_PLS LT(_NAV,KC_PPLS)
-
-#define AL_PAST LALT_T(KC_PAST)
-#define AL_LEFT RALT_T(KC_LEFT)
-#define CTL_R   LCTL_T(KC_RGHT)
-
 #define MY_LBR  TD(TD_LEFT_BR)
 #define MY_RBR  TD(TD_RGHT_BR)
 
 // left mod switch, tap dance to _SYM layer
 /* #define MY_LMD   TD(TD_LEFT_MOD) */
-#define MY_LMD   OSL(_SYMB)
-
-// right mod switch, tap dance to _NAV layer
-#define MY_RMD   TD(TD_RIGHT_MOD)
-
-// disable _SYMB layer
-#define NO_SYM   TG(_SYMB)
-
-// disable _NAV layer
-#define NO_NAV   TG(_NAV)
-
-// left/right shift
-#define MY_LSFT  OSM(MOD_LSFT)
-#define MY_RSFT  OSM(MOD_RSFT)
+#define MY_SYM   OSL(_SYMB)
+#define MY_NAV   OSL(_NAV)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT(
@@ -87,9 +66,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_ESC  ,KC_A    ,KC_S    ,KC_D    ,KC_F    ,KC_G    ,MY_LBR  ,                          MY_RBR  ,KC_H    ,KC_J    ,KC_K    ,KC_L    ,KC_SCLN ,KC_QUOT ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     MY_LSFT ,KC_Z    ,KC_X    ,KC_C    ,KC_V    ,KC_B    ,LT2_PU  ,KC_PGDN ,        KC_HOME ,LT2_END ,KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,MY_RSFT ,
+     KC_LSFT ,KC_Z    ,KC_X    ,KC_C    ,KC_V    ,KC_B    ,KC_PGUP ,KC_PGDN ,        KC_HOME ,KC_END  ,KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,KC_RSFT ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     KC_LCTL ,LNV_PLS ,KC_PMNS ,AL_PAST ,     KC_RGUI ,    KC_BSPC ,MY_RMD  ,        KC_ENT  ,KC_SPC  ,    MY_LMD  ,     AL_LEFT ,KC_DOWN ,KC_UP   ,CTL_R
+     KC_LCTL ,KC_NO   ,KC_NO   ,KC_LALT ,     KC_RGUI ,    KC_BSPC ,MY_NAV  ,        KC_ENT  ,KC_SPC  ,    MY_SYM  ,     KC_RALT ,KC_NO   ,KC_NO   ,KC_RCTL
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
 
@@ -103,20 +82,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_TRNS ,KC_QUOT ,KC_TILD ,KC_PERC ,KC_LBRC ,KC_RBRC ,KC_TRNS ,KC_TRNS,         KC_TRNS ,KC_TRNS ,KC_UNDS ,KC_CIRC ,KC_CIRC ,KC_NO   ,KC_NO   ,KC_NO   ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     KC_TRNS ,KC_TRNS ,KC_TRNS ,KC_TRNS ,     NO_NAV  ,    KC_TRNS ,KC_TRNS ,        KC_TRNS ,KC_TRNS ,    NO_SYM  ,     KC_P0   ,KC_NO   ,KC_NO   ,KC_NO
+     KC_TRNS ,KC_TRNS ,KC_TRNS ,KC_TRNS ,     KC_TRNS ,    KC_TRNS ,KC_TRNS ,        KC_TRNS ,KC_TRNS ,    KC_TRNS ,     KC_TRNS ,KC_TRNS ,KC_TRNS ,KC_TRNS
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
   [_NAV]=LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     KC_TRNS ,KC_TRNS ,KC_TRNS ,KC_TRNS ,KC_TRNS ,KC_TRNS ,                                            KC_TRNS ,KC_TRNS,KC_TRNS  ,KC_TRNS ,KC_TRNS ,KC_TRNS ,
+     KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,                                            KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_NO   ,KC_NO   ,KC_MS_U ,KC_NO   ,KC_WH_U ,KC_NO   ,KC_TRNS ,                          KC_TRNS ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+     KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,                          KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_NO   ,KC_MS_L ,KC_MS_D ,KC_MS_R ,KC_WH_D ,KC_NO   ,KC_TRNS ,                          KC_TRNS ,KC_LEFT ,KC_DOWN ,KC_UP   ,KC_RGHT ,KC_NO   ,KC_NO   ,
+     KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,                          KC_NO   ,KC_LEFT ,KC_DOWN ,KC_UP   ,KC_RGHT ,KC_NO   ,KC_NO   ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_TRNS ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_TRNS ,KC_TRNS ,        KC_TRNS ,KC_TRNS ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_TRNS ,
+     KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     KC_TRNS ,KC_TRNS ,KC_TRNS ,KC_TRNS ,     KC_TRNS ,    KC_TRNS ,KC_TRNS ,        KC_TRNS ,KC_TRNS ,    KC_TRNS ,     KC_TRNS ,KC_TRNS ,KC_TRNS ,KC_TRNS
+     KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,     KC_NO   ,    KC_NO   ,KC_NO   ,        KC_NO   ,KC_NO   ,    KC_NO   ,     KC_NO   ,KC_NO   ,KC_NO   ,KC_NO
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   )
 };
