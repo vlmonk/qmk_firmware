@@ -77,7 +77,7 @@ enum LAYERS {
 // hold 'W' to activate numpad layer + command
 #define MY_WNM LT(_CMD_NUM, KC_W)
 
-// hold 'J' to activate symbol layer
+// hold 'J' / 'F' to activate symbol layer
 #define KC_J_SYM LT(_SYMB_L, KC_J)
 #define KC_F_SYM LT(_SYMB_R, KC_F)
 
