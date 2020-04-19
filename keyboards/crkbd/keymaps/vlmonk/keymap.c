@@ -20,7 +20,7 @@ enum LAYERS {
   _NUM,
 };
 
-enum custom_keycodes {
+enum CUSTOM_KEYCODES {
   QWERTY = SAFE_RANGE,
   LOWER,
   RAISE,
@@ -28,12 +28,28 @@ enum custom_keycodes {
   RGBRST
 };
 
-enum macro_keycodes {
+enum MACRO_KEYCODES {
   KC_SAMPLEMACRO,
 };
 
+enum TAP_DANCE {
+  TD_DOUBLE_ALT
+};
+
+
+void double_alt_done(qk_tap_dance_state_t *state, void *user_data);
+void double_alt_reset(qk_tap_dance_state_t *state, void *user_data);
+static bool alt_pressed = false;
+
+//Tap Dance Definitions
+qk_tap_dance_action_t tap_dance_actions[] = {
+  [TD_DOUBLE_ALT] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, double_alt_done, double_alt_reset, 200)
+};
+
+
 // custom keys
 #define KC_NAV MO(_NAV)
+#define KC_DALT TD(TD_DOUBLE_ALT)
 
 // hold 'J' / 'F' to activate symbol layer
 #define KC_J_SYM LT(_SYMB_L, KC_J)
@@ -51,7 +67,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
      KC_LSFT ,KC_Z    ,KC_X    ,KC_C    ,KC_V    ,KC_B    ,                     KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,KC_RSFT ,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         KC_LGUI ,KC_BSPC ,KC_NAV  ,   KC_ENT  ,KC_SPC  ,KC_RALT \
+                                         KC_LGUI ,KC_BSPC ,KC_NAV  ,   KC_ENT  ,KC_SPC  ,KC_DALT \
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -231,4 +247,23 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
   }
   return true;
+}
+
+void double_alt_done(qk_tap_dance_state_t *state, void *user_data) {
+  if (state->count == 2 && !state->pressed) {
+    register_mods(MOD_BIT(KC_RALT));
+    register_code(KC_SPC);
+
+    unregister_code(KC_SPC);
+    unregister_mods(MOD_BIT(KC_RALT));
+  } else if (state->pressed) {
+    alt_pressed = true;
+    register_mods(MOD_BIT(KC_RALT));
+  }
+}
+
+void double_alt_reset(qk_tap_dance_state_t *state, void *user_data) {
+  if (alt_pressed) { 
+    unregister_mods(MOD_BIT(KC_RALT));
+  }
 }
