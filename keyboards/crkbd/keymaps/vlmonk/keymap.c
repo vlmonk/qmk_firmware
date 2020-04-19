@@ -58,6 +58,11 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 // ctrl / esc button
 #define KC_CESC MT(MOD_LCTL, KC_ESC)
 
+// volume keycodes
+#define VL_MUTE KC__MUTE
+#define VL_UP KC__VOLUP
+#define VL_DOWN KC__VOLDOWN
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT( \
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
@@ -97,11 +102,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_NAV] = LAYOUT( \
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-     _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,                     _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,\
+     RESET   ,RGB_TOG ,RGB_MOD ,VL_MUTE ,VL_DOWN ,VL_UP   ,                     _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,                     _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,\
+     RGB_HUI ,RGB_SAI ,RGB_VAI ,RGB_SPI ,_______ ,_______ ,                     KC_LEFT ,KC_DOWN ,KC_UP   ,KC_RGHT ,KC_UP   ,_______ ,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,                     _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,\
+     RGB_HUD ,RGB_SAD ,RGB_VAD ,RGB_SPD ,_______ ,_______ ,                     _______ ,_______ ,_______ ,KC_LEFT ,KC_DOWN ,KC_RGHT ,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                          _______ ,_______ ,_______ ,   _______ ,_______ ,_______ \
                                       //`--------------------------'  `--------------------------'
@@ -156,6 +161,7 @@ const char *read_logo(void);
 void set_keylog(uint16_t keycode, keyrecord_t *record);
 const char *read_keylog(void);
 const char *read_keylogs(void);
+/* const char *read_rgb_info(void); */
 
 // const char *read_mode_icon(bool swap);
 // const char *read_host_led_state(void);
@@ -170,11 +176,12 @@ void matrix_render_user(struct CharacterMatrix *matrix) {
   if (is_master) {
     // If you want to change the display of OLED, you need to change here
     matrix_write_ln(matrix, read_layer_state());
-    matrix_write_ln(matrix, read_keylog());
+    /* matrix_write_ln(matrix, read_keylog()); */
     //matrix_write_ln(matrix, read_keylogs());
     //matrix_write_ln(matrix, read_mode_icon(keymap_config.swap_lalt_lgui));
     //matrix_write_ln(matrix, read_host_led_state());
     //matrix_write_ln(matrix, read_timelog());
+    /* matrix_write_ln(matrix, read_rgb_info()); */
   } else {
     matrix_write(matrix, read_logo());
   }
