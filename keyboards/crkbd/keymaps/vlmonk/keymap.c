@@ -1,4 +1,5 @@
 #include QMK_KEYBOARD_H
+#include <print.h>
 
 #ifdef RGBLIGHT_ENABLE
 //Following line allows macro to read current RGB settings
@@ -12,7 +13,7 @@ extern uint8_t is_master;
 // Layer names don't all need to be of the same length, obviously, and you can also skip them
 // entirely and just use numbers.
 //
-enum LAYERS {
+enum layers {
   _QWERTY,
   _SYMB_L,
   _SYMB_R,
@@ -20,7 +21,7 @@ enum LAYERS {
   _NUM,
 };
 
-enum CUSTOM_KEYCODES {
+enum custom_keycodes {
   QWERTY = SAFE_RANGE,
   LOWER,
   RAISE,
@@ -28,28 +29,44 @@ enum CUSTOM_KEYCODES {
   RGBRST
 };
 
-enum MACRO_KEYCODES {
-  KC_SAMPLEMACRO,
-};
-
-enum TAP_DANCE {
-  TD_DOUBLE_ALT
+enum tap_dance {
+  TD_DOUBLE_ALT,
+  TD_WNUM
 };
 
 
+enum {
+  SINGLE_TAP = 1,
+  SINGLE_HOLD = 2,
+  DOUBLE_TAP = 3,
+  DOUBLE_HOLD = 4,
+  UNKNOWN_TAPHOLD = 5
+};
+
+
+int cur_dance (qk_tap_dance_state_t *state);
+
+static bool alt_pressed = false;
 void double_alt_done(qk_tap_dance_state_t *state, void *user_data);
 void double_alt_reset(qk_tap_dance_state_t *state, void *user_data);
-static bool alt_pressed = false;
+
+/* static int w_tap_state = 0; */
+void w_tap(qk_tap_dance_state_t *state, void *user_data);
+void w_reset(qk_tap_dance_state_t *state, void *user_data);
+void w_done(qk_tap_dance_state_t *state, void *user_data);
+
 
 //Tap Dance Definitions
 qk_tap_dance_action_t tap_dance_actions[] = {
-  [TD_DOUBLE_ALT] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, double_alt_done, double_alt_reset, 200)
+  [TD_DOUBLE_ALT] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, double_alt_done, double_alt_reset, 200),
+  [TD_WNUM] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(w_tap, w_reset, w_done, 200)
 };
 
 
 // custom keys
 #define KC_NAV MO(_NAV)
 #define KC_DNUM LT(_NUM, KC_D)
+#define KC_WNUM TD(TD_WNUM)
 #define KC_DALT TD(TD_DOUBLE_ALT)
 
 // hold 'J' / 'F' to activate symbol layer
@@ -103,7 +120,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_NAV] = LAYOUT( \
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-     RESET   ,RGB_TOG ,RGB_MOD ,VL_MUTE ,VL_DOWN ,VL_UP   ,                     _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,\
+     RESET   ,RGB_TOG ,RGB_MOD ,VL_MUTE ,VL_DOWN ,VL_UP   ,                     _______ ,_______ ,_______ ,_______ ,_______ ,DEBUG   ,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
      RGB_HUI ,RGB_SAI ,RGB_VAI ,RGB_SPI ,_______ ,_______ ,                     KC_LEFT ,KC_DOWN ,KC_UP   ,KC_RGHT ,KC_UP   ,_______ ,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -124,7 +141,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                          _______ ,_______ ,_______ ,   _______ ,_______ ,KC_0    \
                                       //`--------------------------'  `--------------------------'
   ),
-
 };
 
 int RGB_current_mode;
@@ -274,4 +290,17 @@ void double_alt_reset(qk_tap_dance_state_t *state, void *user_data) {
   if (alt_pressed) { 
     unregister_mods(MOD_BIT(KC_RALT));
   }
+}
+
+void w_tap(qk_tap_dance_state_t *state, void *user_data) {
+  state->finished = true;
+  dprint("w_tap\n");
+}
+
+void w_done(qk_tap_dance_state_t *state, void *user_data) {
+  dprint("w_done\n");
+}
+
+void w_reset(qk_tap_dance_state_t *state, void *user_data) {
+  dprint("w_reset\n");
 }
