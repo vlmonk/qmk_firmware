@@ -31,7 +31,9 @@ enum custom_keycodes {
 
 enum tap_dance {
   TD_DOUBLE_ALT,
-  TD_WNUM
+  TD_WNUM,
+  TD_LSHIFT,
+  TD_RSHIFT
 };
 
 
@@ -59,7 +61,9 @@ void w_done(qk_tap_dance_state_t *state, void *user_data);
 //Tap Dance Definitions
 qk_tap_dance_action_t tap_dance_actions[] = {
   [TD_DOUBLE_ALT] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, double_alt_done, double_alt_reset, 200),
-  [TD_WNUM] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(w_tap, w_reset, w_done, 200)
+  [TD_WNUM] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(w_tap, w_reset, w_done, 200),
+  [TD_LSHIFT] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_F20),
+  [TD_RSHIFT] = ACTION_TAP_DANCE_DOUBLE(KC_RSFT, KC_F21)
 };
 
 
@@ -68,6 +72,8 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 #define KC_DNUM LT(_NUM, KC_D)
 #define KC_WNUM TD(TD_WNUM)
 #define KC_DALT TD(TD_DOUBLE_ALT)
+#define KC_LSTD TD(TD_LSHIFT)
+#define KC_RSTD TD(TD_RSHIFT)
 
 // hold 'J' / 'F' to activate symbol layer
 #define KC_J_SYM LT(_SYMB_L, KC_J)
@@ -75,6 +81,10 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 
 // ctrl / esc button
 #define KC_CESC MT(MOD_LCTL, KC_ESC)
+
+// ctrl <- / ctrl ->
+#define KC_CT_L C(KC_LEFT)
+#define KC_CT_R C(KC_RIGHT)
 
 // volume keycodes
 #define VL_MUTE KC__MUTE
@@ -88,7 +98,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
      KC_CESC ,KC_A    ,KC_S    ,KC_DNUM ,KC_F_SYM,KC_G    ,                     KC_H    ,KC_J_SYM,KC_K    ,KC_L    ,KC_SCLN ,KC_QUOT ,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     KC_LSFT ,KC_Z    ,KC_X    ,KC_C    ,KC_V    ,KC_B    ,                     KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,KC_RSFT ,\
+     KC_LSTD ,KC_Z    ,KC_X    ,KC_C    ,KC_V    ,KC_B    ,                     KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,KC_RSTD ,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                          KC_LGUI ,KC_BSPC ,KC_NAV  ,   KC_ENT  ,KC_SPC  ,KC_DALT \
                                       //`--------------------------'  `--------------------------'
@@ -124,7 +134,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
      RGB_HUI ,RGB_SAI ,RGB_VAI ,RGB_SPI ,_______ ,_______ ,                     KC_LEFT ,KC_DOWN ,KC_UP   ,KC_RGHT ,KC_UP   ,_______ ,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     RGB_HUD ,RGB_SAD ,RGB_VAD ,RGB_SPD ,_______ ,_______ ,                     _______ ,_______ ,_______ ,KC_LEFT ,KC_DOWN ,KC_RGHT ,\
+     RGB_HUD ,RGB_SAD ,RGB_VAD ,RGB_SPD ,KC_CT_L ,KC_CT_R ,                     _______ ,_______ ,_______ ,KC_LEFT ,KC_DOWN ,KC_RGHT ,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                          _______ ,_______ ,_______ ,   _______ ,_______ ,_______ \
                                       //`--------------------------'  `--------------------------'
