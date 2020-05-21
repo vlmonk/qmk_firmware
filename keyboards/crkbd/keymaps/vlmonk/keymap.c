@@ -74,7 +74,7 @@ void j_done(qk_tap_dance_state_t *state, void *user_data);
 qk_tap_dance_action_t tap_dance_actions[] = {
   [TD_DOUBLE_ALT] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, double_alt_done, double_alt_reset, 200),
   [TD_WNUM] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(w_tap, w_reset, w_done, 200),
-  [TD_JKEY] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(j_tap, j_reset, j_done, 150),
+  [TD_JKEY] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(j_tap, j_reset, j_done, 200),
   [TD_LSHIFT] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_F20),
   [TD_RSHIFT] = ACTION_TAP_DANCE_DOUBLE(KC_RSFT, KC_F21)
 };
