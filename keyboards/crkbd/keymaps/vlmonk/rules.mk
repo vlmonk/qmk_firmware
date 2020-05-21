@@ -1,11 +1,11 @@
 MOUSEKEY_ENABLE = no
 
 # RGBLIGHT_ENABLE = yes
-RGBLIGHT_ENABLE = no
-RGB_MATRIX_ENABLE = WS2812
-TAP_DANCE_ENABLE=yes
+# RGBLIGHT_ENABLE = no
+# RGB_MATRIX_ENABLE = WS2812
 
-# CONSOLE_ENABLE = yes
+TAP_DANCE_ENABLE=yes
+CONSOLE_ENABLE = yes
 
 
 # If you want to change the display of OLED, you need to change here

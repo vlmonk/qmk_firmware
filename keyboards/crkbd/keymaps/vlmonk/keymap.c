@@ -1,6 +1,14 @@
 #include QMK_KEYBOARD_H
 #include <print.h>
 
+void keyboard_post_init_user(void) {
+  // Customise these values to desired behaviour
+  debug_enable=true;
+  // debug_matrix=true;
+  //debug_keyboard=true;
+  //debug_mouse=true;
+}
+
 #ifdef RGBLIGHT_ENABLE
 //Following line allows macro to read current RGB settings
 extern rgblight_config_t rgblight_config;
@@ -33,7 +41,8 @@ enum tap_dance {
   TD_DOUBLE_ALT,
   TD_WNUM,
   TD_LSHIFT,
-  TD_RSHIFT
+  TD_RSHIFT,
+  TD_JKEY
 };
 
 
@@ -45,8 +54,8 @@ enum {
   UNKNOWN_TAPHOLD = 5
 };
 
-
-int cur_dance (qk_tap_dance_state_t *state);
+int cur_dance(qk_tap_dance_state_t *state);
+int i_state;
 
 static bool alt_pressed = false;
 void double_alt_done(qk_tap_dance_state_t *state, void *user_data);
@@ -57,11 +66,15 @@ void w_tap(qk_tap_dance_state_t *state, void *user_data);
 void w_reset(qk_tap_dance_state_t *state, void *user_data);
 void w_done(qk_tap_dance_state_t *state, void *user_data);
 
+void j_tap(qk_tap_dance_state_t *state, void *user_data);
+void j_reset(qk_tap_dance_state_t *state, void *user_data);
+void j_done(qk_tap_dance_state_t *state, void *user_data);
 
 //Tap Dance Definitions
 qk_tap_dance_action_t tap_dance_actions[] = {
   [TD_DOUBLE_ALT] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, double_alt_done, double_alt_reset, 200),
   [TD_WNUM] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(w_tap, w_reset, w_done, 200),
+  [TD_JKEY] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(j_tap, j_reset, j_done, 200),
   [TD_LSHIFT] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_F20),
   [TD_RSHIFT] = ACTION_TAP_DANCE_DOUBLE(KC_RSFT, KC_F21)
 };
@@ -74,6 +87,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 #define KC_DALT TD(TD_DOUBLE_ALT)
 #define KC_LSTD TD(TD_LSHIFT)
 #define KC_RSTD TD(TD_RSHIFT)
+#define KC_JKEY TD(TD_JKEY)
 
 // hold 'J' / 'F' to activate symbol layer
 #define KC_J_SYM LT(_SYMB_L, KC_J)
@@ -96,7 +110,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
      KC_TAB  ,KC_Q    ,KC_W    ,KC_E    ,KC_R    ,KC_T    ,                     KC_Y    ,KC_U    ,KC_I    ,KC_O    ,KC_P    ,KC_EQL  ,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     KC_CESC ,KC_A    ,KC_S    ,KC_DNUM ,KC_F_SYM,KC_G    ,                     KC_H    ,KC_J_SYM,KC_K    ,KC_L    ,KC_SCLN ,KC_QUOT ,\
+     KC_CESC ,KC_A    ,KC_S    ,KC_DNUM ,KC_F_SYM,KC_G    ,                     KC_H    ,KC_JKEY ,KC_K    ,KC_L    ,KC_SCLN ,KC_QUOT ,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
      KC_LSTD ,KC_Z    ,KC_X    ,KC_C    ,KC_V    ,KC_B    ,                     KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,KC_RSTD ,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -313,4 +327,53 @@ void w_done(qk_tap_dance_state_t *state, void *user_data) {
 
 void w_reset(qk_tap_dance_state_t *state, void *user_data) {
   dprint("w_reset\n");
+}
+
+int cur_dance(qk_tap_dance_state_t *state) {
+  if (state->count == 1) {
+    if (state->pressed) {
+      return SINGLE_HOLD;
+    } else {
+      return SINGLE_TAP;
+    }
+  } else if (state->count == 2) {
+    if (state->pressed) {
+      return DOUBLE_HOLD;
+    } else {
+      return DOUBLE_TAP;
+    }
+  } else  {
+    return UNKNOWN_TAPHOLD;
+  }
+}
+
+
+void j_tap(qk_tap_dance_state_t *state, void *user_data) {
+  i_state = cur_dance(state);
+
+  if (i_state == DOUBLE_HOLD) {
+    register_code(KC_J);
+    unregister_code(KC_J);
+    register_code(KC_J);
+  }
+
+  uprintf("j_tap: %d (%d / %d)\n", i_state, state->count, state->pressed);
+}
+
+void j_done(qk_tap_dance_state_t *state, void *user_data) {
+  i_state = cur_dance(state);
+  uprintf("j_done: %d (%d / %d)\n", i_state, state->count, state->pressed);
+
+  if (state->count == 1) {
+    layer_off(_SYMB_L);
+  } else  if (state->count > 1) {
+    unregister_code(KC_J);
+  }
+}
+
+void j_reset(qk_tap_dance_state_t *state, void *user_data) {
+  if (state->count == 1 && state->pressed) {
+    layer_on(_SYMB_L);
+  }
+  print("j_reset\n");
 }
