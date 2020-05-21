@@ -74,7 +74,7 @@ void j_done(qk_tap_dance_state_t *state, void *user_data);
 qk_tap_dance_action_t tap_dance_actions[] = {
   [TD_DOUBLE_ALT] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, double_alt_done, double_alt_reset, 200),
   [TD_WNUM] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(w_tap, w_reset, w_done, 200),
-  [TD_JKEY] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(j_tap, j_reset, j_done, 200),
+  [TD_JKEY] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(j_tap, j_reset, j_done, 150),
   [TD_LSHIFT] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_F20),
   [TD_RSHIFT] = ACTION_TAP_DANCE_DOUBLE(KC_RSFT, KC_F21)
 };
@@ -347,33 +347,52 @@ int cur_dance(qk_tap_dance_state_t *state) {
   }
 }
 
+enum {
+  J_NONE,
+  J_LAYER,
+  J_HOLD
+};
+
+int j_status = J_NONE;
 
 void j_tap(qk_tap_dance_state_t *state, void *user_data) {
-  i_state = cur_dance(state);
-
-  if (i_state == DOUBLE_HOLD) {
+  if (state->count > 1) {
     register_code(KC_J);
     unregister_code(KC_J);
     register_code(KC_J);
-  }
-
-  uprintf("j_tap: %d (%d / %d)\n", i_state, state->count, state->pressed);
-}
-
-void j_done(qk_tap_dance_state_t *state, void *user_data) {
-  i_state = cur_dance(state);
-  uprintf("j_done: %d (%d / %d)\n", i_state, state->count, state->pressed);
-
-  if (state->count == 1) {
-    layer_off(_SYMB_L);
-  } else  if (state->count > 1) {
-    unregister_code(KC_J);
+    j_status = J_HOLD;
   }
 }
 
 void j_reset(qk_tap_dance_state_t *state, void *user_data) {
-  if (state->count == 1 && state->pressed) {
-    layer_on(_SYMB_L);
+  if (state->count == 1) {
+    if (state->pressed) {
+      layer_on(_SYMB_L);
+      j_status = J_LAYER;
+    } else {
+      register_code(KC_J);
+      unregister_code(KC_J);
+      j_status = J_NONE;
+    } 
+  } else {
+    if (state->pressed) {
+      // noop
+    } else {
+      unregister_code(KC_J);
+      j_status = J_NONE;
+    }
   }
-  print("j_reset\n");
+}
+
+void j_done(qk_tap_dance_state_t *state, void *user_data) {
+  switch (j_status) {
+    case J_LAYER:
+      layer_off(_SYMB_L);
+      break;
+    case J_HOLD:
+      unregister_code(KC_J);
+      break;
+  }
+
+  j_status = J_NONE;
 }
