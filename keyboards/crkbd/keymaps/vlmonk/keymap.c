@@ -80,8 +80,8 @@ void f_done(qk_tap_dance_state_t *state, void *user_data);
 qk_tap_dance_action_t tap_dance_actions[] = {
   [TD_DOUBLE_ALT] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, double_alt_done, double_alt_reset, 200),
   [TD_WNUM] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(w_tap, w_reset, w_done, 200),
-  [TD_JKEY] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(j_tap, j_reset, j_done, 200),
-  [TD_FKEY] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(f_tap, f_reset, f_done, 200),
+  [TD_JKEY] = ACTION_TAP_DANCE_FN_ADVANCED(j_tap, j_reset, j_done),
+  [TD_FKEY] = ACTION_TAP_DANCE_FN_ADVANCED(f_tap, f_reset, f_done),
   [TD_LSHIFT] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_F20),
   [TD_RSHIFT] = ACTION_TAP_DANCE_DOUBLE(KC_RSFT, KC_F21)
 };
@@ -361,37 +361,34 @@ int j_status = J_NONE;
 
 void j_tap(qk_tap_dance_state_t *state, void *user_data) {
   uprintf("j_tap, count: %d\n", state->count);
-  if (state->count > 1) {
+
+  if (state->count == 1) {
+    layer_on(_SYMB_L);
+    j_status = J_LAYER;
+  } else if (state->count == 2) {
+    layer_off(_SYMB_L);
     register_code(KC_J);
     unregister_code(KC_J);
     register_code(KC_J);
     j_status = J_HOLD;
+  } else {
+    unregister_code(KC_J);
+    register_code(KC_J);
   }
 }
 
 void j_reset(qk_tap_dance_state_t *state, void *user_data) {
   uprintf("j_reset, count: %d, pressed: %d\n", state->count, state->pressed);
-  if (state->count == 1) {
-    if (state->pressed) {
-      layer_on(_SYMB_L);
-      j_status = J_LAYER;
-    } else {
-      register_code(KC_J);
-      unregister_code(KC_J);
-      j_status = J_NONE;
-    } 
-  } else {
-    if (state->pressed) {
-      // noop
-    } else {
-      unregister_code(KC_J);
-      j_status = J_NONE;
-    }
+
+  if (j_status == J_LAYER && !state->pressed) {
+    register_code(KC_J);
+    unregister_code(KC_J);
   }
 }
 
 void j_done(qk_tap_dance_state_t *state, void *user_data) {
   uprintf("j_done, count: %d, pressed: %d\n", state->count, state->pressed);
+
   switch (j_status) {
     case J_LAYER:
       layer_off(_SYMB_L);
@@ -414,37 +411,34 @@ int f_status = F_NONE;
 
 void f_tap(qk_tap_dance_state_t *state, void *user_data) {
   uprintf("f_tap, count: %d\n", state->count);
-  if (state->count > 1) {
+
+  if (state->count == 1) {
+    layer_on(_SYMB_R);
+    f_status = F_LAYER;
+  } else if (state->count == 2) {
+    layer_off(_SYMB_R);
     register_code(KC_F);
     unregister_code(KC_F);
     register_code(KC_F);
     f_status = F_HOLD;
+  } else {
+    unregister_code(KC_F);
+    register_code(KC_F);
   }
 }
 
 void f_reset(qk_tap_dance_state_t *state, void *user_data) {
   uprintf("f_reset, count: %d, pressed: %d\n", state->count, state->pressed);
-  if (state->count == 1) {
-    if (state->pressed) {
-      layer_on(_SYMB_R);
-      f_status = F_LAYER;
-    } else {
-      register_code(KC_F);
-      unregister_code(KC_F);
-      f_status = F_NONE;
-    } 
-  } else {
-    if (state->pressed) {
-      // noop
-    } else {
-      unregister_code(KC_F);
-      f_status = F_NONE;
-    }
+
+  if (f_status == F_LAYER && !state->pressed) {
+    register_code(KC_F);
+    unregister_code(KC_F);
   }
 }
 
 void f_done(qk_tap_dance_state_t *state, void *user_data) {
   uprintf("f_done, count: %d, pressed: %d\n", state->count, state->pressed);
+
   switch (f_status) {
     case F_LAYER:
       layer_off(_SYMB_R);
