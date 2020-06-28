@@ -82,8 +82,6 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   [TD_WNUM] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(w_tap, w_finished, w_reset, 200),
   [TD_JKEY] = ACTION_TAP_DANCE_FN_ADVANCED(j_tap, j_finished, j_reset),
   [TD_FKEY] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(f_tap, f_finished, f_reset, 200),
-  [TD_LSHIFT] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_F20),
-  [TD_RSHIFT] = ACTION_TAP_DANCE_DOUBLE(KC_RSFT, KC_F21)
 };
 
 
@@ -92,8 +90,6 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 #define KC_DNUM LT(_NUM, KC_D)
 #define KC_WNUM TD(TD_WNUM)
 #define KC_DALT TD(TD_DOUBLE_ALT)
-#define KC_LSTD TD(TD_LSHIFT)
-#define KC_RSTD TD(TD_RSHIFT)
 #define KC_FKEY TD(TD_FKEY)
 #define KC_JKEY TD(TD_JKEY)
 
@@ -116,7 +112,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
      KC_CESC ,KC_A    ,KC_S    ,KC_DNUM ,KC_FKEY ,KC_G    ,                     KC_H    ,KC_JKEY ,KC_K    ,KC_L    ,KC_SCLN ,KC_QUOT ,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     KC_LSTD ,KC_Z    ,KC_X    ,KC_C    ,KC_V    ,KC_B    ,                     KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,KC_RSTD ,\
+     KC_LSFT ,KC_Z    ,KC_X    ,KC_C    ,KC_V    ,KC_B    ,                     KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,KC_RSFT,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                          KC_LGUI ,KC_BSPC ,KC_NAV  ,   KC_ENT  ,KC_SPC  ,KC_DALT \
                                       //`--------------------------'  `--------------------------'
