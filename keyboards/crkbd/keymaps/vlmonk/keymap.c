@@ -1,14 +1,6 @@
 #include QMK_KEYBOARD_H
 #include <print.h>
 
-void keyboard_post_init_user(void) {
-  // Customise these values to desired behaviour
-  debug_enable=true;
-  // debug_matrix=true;
-  //debug_keyboard=true;
-  //debug_mouse=true;
-}
-
 #ifdef RGBLIGHT_ENABLE
 //Following line allows macro to read current RGB settings
 extern rgblight_config_t rgblight_config;
@@ -174,15 +166,6 @@ void persistent_default_layer_set(uint16_t default_layer) {
   default_layer_set(default_layer);
 }
 
-// Setting ADJUST layer RGB back to default
-/* void update_tri_layer_RGB(uint8_t layer1, uint8_t layer2, uint8_t layer3) { */
-/*   if (IS_LAYER_ON(layer1) && IS_LAYER_ON(layer2)) { */
-/*     layer_on(layer3); */
-/*   } else { */
-/*     layer_off(layer3); */
-/*   } */
-/* } */
-
 void matrix_init_user(void) {
     #ifdef RGBLIGHT_ENABLE
       RGB_current_mode = rgblight_config.mode;
@@ -202,12 +185,6 @@ const char *read_logo(void);
 void set_keylog(uint16_t keycode, keyrecord_t *record);
 const char *read_keylog(void);
 const char *read_keylogs(void);
-/* const char *read_rgb_info(void); */
-
-// const char *read_mode_icon(bool swap);
-// const char *read_host_led_state(void);
-// void set_timelog(void);
-// const char *read_timelog(void);
 
 void matrix_scan_user(void) {
    iota_gfx_task();
@@ -327,56 +304,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
   }
 
-  if (record->event.pressed) {
-#ifdef SSD1306OLED
-    set_keylog(keycode, record);
-#endif
-    // set_timelog();
-  }
-
-  switch (keycode) {
-    /* case QWERTY: */
-    /*   if (record->event.pressed) { */
-    /*     persistent_default_layer_set(1UL<<_QWERTY); */
-    /*   } */
-    /*   return false; */
-    /* case LOWER: */
-    /*   if (record->event.pressed) { */
-    /*     layer_on(_LOWER); */
-    /*     /1* update_tri_layer_RGB(_LOWER, _RAISE, _ADJUST); *1/ */
-    /*   } else { */
-    /*     layer_off(_LOWER); */
-    /*     /1* update_tri_layer_RGB(_LOWER, _RAISE, _ADJUST); *1/ */
-    /*   } */
-    /*   return false; */
-    /* case RAISE: */
-    /*   if (record->event.pressed) { */
-    /*     layer_on(_RAISE); */
-    /*     /1* update_tri_layer_RGB(_LOWER, _RAISE, _ADJUST); *1/ */
-    /*   } else { */
-    /*     layer_off(_RAISE); */
-    /*     /1* update_tri_layer_RGB(_LOWER, _RAISE, _ADJUST); *1/ */
-    /*   } */
-    /*   return false; */
-    /* case RGB_MOD: */
-    /*   #ifdef RGBLIGHT_ENABLE */
-    /*     if (record->event.pressed) { */
-    /*       rgblight_mode(RGB_current_mode); */
-    /*       rgblight_step(); */
-    /*       RGB_current_mode = rgblight_config.mode; */
-    /*     } */
-    /*   #endif */
-    /*   return false; */
-    case RGBRST:
-      #ifdef RGBLIGHT_ENABLE
-        if (record->event.pressed) {
-          eeconfig_update_rgblight_default();
-          rgblight_enable();
-          RGB_current_mode = rgblight_config.mode;
-        }
-      #endif
-      break;
-  }
   return true;
 }
 
