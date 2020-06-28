@@ -249,10 +249,9 @@ uint16_t qwerty_key(keypos_t *key) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (record->event.pressed) {
-    uint16_t a = keymap_key_to_keycode(_QWERTY, record->event.key);
-    uprintf("process_record_user: keycode %d / %d pressed at (%d / %d)\n", keycode, a, record->event.key.row, record->event.key.col);
+    dprintf("process_record_user: keycode %d pressed at (%d / %d)\n", keycode, record->event.key.row, record->event.key.col);
   } else {
-    uprintf("process_record_user: keycode %d released\n", keycode);
+    dprintf("process_record_user: keycode %d released\n", keycode);
   }
 
   uint8_t layer = biton32(layer_state);
@@ -260,7 +259,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (remember.step) {
     case COM_NONE:
       if (record->event.pressed && (keycode == KC_FKEY || keycode == KC_JKEY)) {
-        uprintf("OK, step one detected, remember %d at (%d / %d)\n", keycode, record->event.key.row, record->event.key.col);
+        dprintf("OK, step one detected, remember %d at (%d / %d)\n", keycode, record->event.key.row, record->event.key.col);
         remember.step = COM_ONE;
         remember.first.col = record->event.key.col;
         remember.first.row = record->event.key.row;
@@ -268,7 +267,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
     case COM_ONE:
       if (record->event.pressed) {
-        uprintf("OK, step two detected, remember %d\n", keycode);
+        dprintf("OK, step two detected, remember %d\n", keycode);
         remember.last.col = record->event.key.col;
         remember.last.row = record->event.key.row;
         remember.step = COM_TWO;
@@ -280,22 +279,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
     case COM_TWO:
       if (record->event.pressed) {
-        uprintf("OK, step three, press %d\n", keycode);
+        dprintf("OK, step three, press %d\n", keycode);
         register_code16(keymap_key_to_keycode(layer, remember.last));
       } else {
         if (remember.first.col == record->event.key.col && remember.first.row == record->event.key.row) {
-          uprintf("Variant 1\n");
+          dprintf("Variant 1\n");
           tap_code16(qwerty_key(&remember.first));
           tap_code16(qwerty_key(&remember.last));
           /* register_code16(keymap_key_to_keycode(layer, remember.last)); */
         /* } else if (remember.row == record->event.key.row && remember.col == record->event.key.col) { */
-        /*   uprintf("Variant 2 layer: %d, cc: %d\n", layer, keymap_key_to_keycode(layer, pos)); */
+        /*   dprintf("Variant 2 layer: %d, cc: %d\n", layer, keymap_key_to_keycode(layer, pos)); */
         /*   register_code16(keymap_key_to_keycode(layer, pos)); */
         /*   unregister_code16(keymap_key_to_keycode(layer, pos)); */
         /*   remember.step = COM_NONE; */
         /*   return false; */
         } else {
-          uprintf("Variant 3\n");
+          dprintf("Variant 3\n");
           register_code16(keymap_key_to_keycode(layer, remember.last));
         }
       }
@@ -366,7 +365,7 @@ enum {
 int j_status = J_NONE;
 
 void j_tap(qk_tap_dance_state_t *state, void *user_data) {
-  uprintf("j_tap, count: %d\n", state->count);
+  dprintf("j_tap, count: %d\n", state->count);
 
   if (state->count == 1) {
     layer_on(_SYMB_L);
@@ -384,7 +383,7 @@ void j_tap(qk_tap_dance_state_t *state, void *user_data) {
 }
 
 void j_finished(qk_tap_dance_state_t *state, void *user_data) {
-  uprintf("j_finished, count: %d, pressed: %d\n", state->count, state->pressed);
+  dprintf("j_finished, count: %d, pressed: %d\n", state->count, state->pressed);
 
   if (j_status == J_LAYER && !state->pressed) {
     register_code(KC_J);
@@ -393,7 +392,7 @@ void j_finished(qk_tap_dance_state_t *state, void *user_data) {
 }
 
 void j_reset(qk_tap_dance_state_t *state, void *user_data) {
-  uprintf("j_reset, count: %d, pressed: %d\n", state->count, state->pressed);
+  dprintf("j_reset, count: %d, pressed: %d\n", state->count, state->pressed);
 
   switch (j_status) {
     case J_LAYER:
@@ -416,7 +415,7 @@ enum {
 int f_status = F_NONE;
 
 void f_tap(qk_tap_dance_state_t *state, void *user_data) {
-  uprintf("f_tap, count: %d\n", state->count);
+  dprintf("f_tap, count: %d\n", state->count);
 
   if (state->count == 1) {
     layer_on(_SYMB_R);
@@ -434,7 +433,7 @@ void f_tap(qk_tap_dance_state_t *state, void *user_data) {
 }
 
 void f_finished(qk_tap_dance_state_t *state, void *user_data) {
-  uprintf("f_finished, count: %d, pressed: %d\n", state->count, state->pressed);
+  dprintf("f_finished, count: %d, pressed: %d\n", state->count, state->pressed);
 
   if (f_status == F_LAYER && !state->pressed) {
     register_code(KC_F);
@@ -443,7 +442,7 @@ void f_finished(qk_tap_dance_state_t *state, void *user_data) {
 }
 
 void f_reset(qk_tap_dance_state_t *state, void *user_data) {
-  uprintf("f_reset, count: %d, pressed: %d\n", state->count, state->pressed);
+  dprintf("f_reset, count: %d, pressed: %d\n", state->count, state->pressed);
 
   switch (f_status) {
     case F_LAYER:
