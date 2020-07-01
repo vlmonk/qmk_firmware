@@ -286,13 +286,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           dprintf("Variant 1\n");
           tap_code16(qwerty_key(&remember.first));
           tap_code16(qwerty_key(&remember.last));
-          /* register_code16(keymap_key_to_keycode(layer, remember.last)); */
-        /* } else if (remember.row == record->event.key.row && remember.col == record->event.key.col) { */
-        /*   dprintf("Variant 2 layer: %d, cc: %d\n", layer, keymap_key_to_keycode(layer, pos)); */
-        /*   register_code16(keymap_key_to_keycode(layer, pos)); */
-        /*   unregister_code16(keymap_key_to_keycode(layer, pos)); */
-        /*   remember.step = COM_NONE; */
-        /*   return false; */
         } else {
           dprintf("Variant 3\n");
           register_code16(keymap_key_to_keycode(layer, remember.last));
