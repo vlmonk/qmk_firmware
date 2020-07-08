@@ -37,9 +37,6 @@ enum {
   UNKNOWN_TAPHOLD = 5
 };
 
-int cur_dance(qk_tap_dance_state_t *state);
-int i_state;
-
 static bool alt_pressed = false;
 void double_alt_done(qk_tap_dance_state_t *state, void *user_data);
 void double_alt_reset(qk_tap_dance_state_t *state, void *user_data);
@@ -52,9 +49,8 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 
 // custom keys
 #define KC_NAV MO(_NAV)
-#define KC_DNUM LT(_NUM, KC_D)
-#define KC_WNUM TD(TD_WNUM)
 #define KC_DALT TD(TD_DOUBLE_ALT)
+#define KC_DNUM LT(_NUM, KC_D)
 #define KC_FKEY LT(_SYMB, KC_F)
 #define KC_JKEY LT(_SYMB, KC_J)
 
@@ -180,85 +176,6 @@ void iota_gfx_task_user(void) {
   matrix_update(&display, &matrix);
 }
 #endif//SSD1306OLED
-
-enum {
-  COM_NONE,
-  COM_ONE,
-  COM_TWO
-};
-
-
-struct remember_t {
-  keypos_t first;
-  keypos_t last;
-  uint8_t step;
-} remember = { .step = COM_NONE, .first = { .col = 0, .row = 0 }, .last = { .col = 0, .row = 0 } };
-
-/* remember.step = COM_NONE; */
-
-uint16_t qwerty_key(keypos_t *key) {
-  uint16_t original = keymap_key_to_keycode(_QWERTY, *key);
-  switch (original) {
-    case KC_FKEY:
-      return KC_F;
-    case KC_JKEY:
-      return KC_J;
-    default:
-      return original;
-  }
-}
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  if (record->event.pressed) {
-    dprintf("process_record_user: keycode %d pressed at (%d / %d)\n", keycode, record->event.key.row, record->event.key.col);
-  } else {
-    dprintf("process_record_user: keycode %d released\n", keycode);
-  }
-
-  /* uint8_t layer = biton32(layer_state); */
-
-  /* switch (remember.step) { */
-  /*   case COM_NONE: */
-  /*     if (record->event.pressed && (keycode == KC_FKEY || keycode == KC_JKEY)) { */
-  /*       dprintf("OK, step one detected, remember %d at (%d / %d)\n", keycode, record->event.key.row, record->event.key.col); */
-  /*       remember.step = COM_ONE; */
-  /*       remember.first.col = record->event.key.col; */
-  /*       remember.first.row = record->event.key.row; */
-  /*     } */
-  /*     break; */
-  /*   case COM_ONE: */
-  /*     if (record->event.pressed) { */
-  /*       dprintf("OK, step two detected, remember %d\n", keycode); */
-  /*       remember.last.col = record->event.key.col; */
-  /*       remember.last.row = record->event.key.row; */
-  /*       remember.step = COM_TWO; */
-  /*       return false; */
-  /*     } else { */
-  /*       remember.step = COM_NONE; */
-  /*     } */
-
-  /*     break; */
-  /*   case COM_TWO: */
-  /*     if (record->event.pressed) { */
-  /*       dprintf("OK, step three, press %d\n", keycode); */
-  /*       register_code16(keymap_key_to_keycode(layer, remember.last)); */
-  /*     } else { */
-  /*       if (remember.first.col == record->event.key.col && remember.first.row == record->event.key.row) { */
-  /*         dprintf("Variant 1\n"); */
-  /*         tap_code16(qwerty_key(&remember.first)); */
-  /*         tap_code16(qwerty_key(&remember.last)); */
-  /*       } else { */
-  /*         dprintf("Variant 3\n"); */
-  /*         register_code16(keymap_key_to_keycode(layer, remember.last)); */
-  /*       } */
-  /*     } */
-
-  /*     remember.step = COM_NONE; */
-  /*     break; */
-  /* } */
-
-  return true;
-}
 
 void double_alt_done(qk_tap_dance_state_t *state, void *user_data) {
   if (state->count == 2 && !state->pressed) {
