@@ -55,6 +55,8 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 #define KC_DNUM LT(_NUM, KC_D)
 #define KC_FKEY LT(_SYMB, KC_F)
 #define KC_JKEY LT(_SYMB, KC_J)
+#define KC_HSFT MT(MOD_RSFT, KC_H)
+#define KC_GSFT MT(MOD_LSFT, KC_G)
 
 // ctrl / esc button
 #define KC_CESC MT(MOD_LCTL, KC_ESC)
@@ -73,7 +75,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
      KC_TAB  ,KC_Q    ,KC_W    ,KC_E    ,KC_R    ,KC_T    ,                     KC_Y    ,KC_U    ,KC_I    ,KC_O    ,KC_P    ,KC_EQL  ,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     KC_CESC ,KC_A    ,KC_S    ,KC_DNUM ,KC_FKEY ,KC_G    ,                     KC_H    ,KC_JKEY ,KC_K    ,KC_L    ,KC_SCLN ,KC_QUOT ,\
+     KC_CESC ,KC_A    ,KC_S    ,KC_DNUM ,KC_FKEY ,KC_GSFT ,                     KC_HSFT ,KC_JKEY ,KC_K    ,KC_L    ,KC_SCLN ,KC_QUOT ,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
      KC_LSFT ,KC_Z    ,KC_X    ,KC_C    ,KC_V    ,KC_B    ,                     KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,KC_RSFT,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
